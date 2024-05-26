@@ -14,7 +14,7 @@ To chat, visitors, type a message in the message text box and click the SEND but
 
 ![image](https://github.com/glitch64/chatroom-apps/assets/6064068/93cc3008-7936-4a2f-bc56-48b18a427a5a)
 
-To exit the current room and return to the main page, visitors click the exit button![image](https://github.com/glitch64/chatroom-apps/assets/6064068/fccc3a8e-5a6d-436f-83b9-07f8a5ba99e6)
+To exit the current room and return to the main page, visitors click the exit button and are returned to the select room page.
 Note:  Currently chatroom-apps does not retaine chat history.  next update will include MySQL database storage of text history.
 
 
