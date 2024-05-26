@@ -1,9 +1,11 @@
 Web Chatroom application. 
 NodeJS application using express, http, socket.io, path node modules.
+
 Description:
 Chat Application prompts visitor for a nickname and a room to join.  
 Application will check existing active connections of users and not allow you to pick a nickname currently active.
 Visitors select from a drop down list of chat rooms.  There are 10 rooms:
+
 LOBBY
 ROOMS 1-9
 
