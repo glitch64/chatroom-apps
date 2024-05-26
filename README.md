@@ -17,7 +17,12 @@ To chat, visitors, type a message in the message text box and click the SEND but
 To exit the current room and return to the main page, visitors click the exit button and are returned to the select room page.
 Note:  Currently chatroom-apps does not retaine chat history.  next update will include MySQL database storage of text history.
 
+Installation:
 
+1. git clone https://github.com/glitch64/chatroom-apps.git
+2. cd to chatroom-apps folder
+3. npm update
+4. npm install
 
 
 
