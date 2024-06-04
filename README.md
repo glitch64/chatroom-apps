@@ -2,6 +2,9 @@ Web Chatroom application.
 NodeJS application using express, http, socket.io, path node modules.
 
 Description:
+
+This is basically a training application for me.  A basic chat room application.
+
 Chat Application prompts visitor for a nickname and a room to join.  
 Application will check existing active connections of users and not allow you to pick a nickname currently active.
 Visitors select from a drop down list of chat rooms.  There are 10 rooms:
@@ -18,6 +21,9 @@ To chat, visitors, type a message in the message text box and click the SEND but
 
 To exit the current room and return to the main page, visitors click the exit button and are returned to the select room page.
 Note:  Currently chatroom-apps does not retain a chat history.  next update will include MySQL database storage of text history.
+
+Updated:  A basic private chat message feature has been added.
+Next update:  Will update private chat to either require a selection from a drop-down list, or some other method. 
 
 Installation:
 
