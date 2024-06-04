@@ -22,6 +22,7 @@ let rooms = ['Lobby', 'Room #1', 'Room #2', 'Room #3', 'Room #4', 'Room #5', 'Ro
 io.on('connection', (socket) => {
     let addedUser = false;
 
+    // Event listener for adding a user to a room
     socket.on('add user', (nickname, room) => {
         if (addedUser) return;
 
@@ -49,6 +50,7 @@ io.on('connection', (socket) => {
         io.to(room).emit('update users', usersInRoom);
     });
 
+    // Event listener for sending a new message
     socket.on('new message', (message) => {
         io.to(socket.room).emit('new message', {
             nickname: socket.nickname,
@@ -57,6 +59,7 @@ io.on('connection', (socket) => {
         });
     });
 
+    // Event listener for switching rooms
     socket.on('switch room', (newRoom) => {
         socket.leave(socket.room);
         socket.join(newRoom);
@@ -70,6 +73,7 @@ io.on('connection', (socket) => {
         io.to(newRoom).emit('update users', usersInNewRoom);
     });
 
+    // Event listener for user disconnection
     socket.on('disconnect', () => {
         if (addedUser) {
             const room = socket.room;
@@ -90,7 +94,7 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Listen for private messages
+    // Event listener for private messages
     socket.on('private message', (msg) => {
         console.log('private message received on server.', msg, msg.targetUsername);
         const targetUser = users.find(user => user.username === msg.targetUsername);
@@ -104,6 +108,7 @@ io.on('connection', (socket) => {
     });
 });
 
+// Function to get the list of users in a room
 function getUsersInRoom(room) {
     const usersInRoom = [];
     const clients = io.sockets.adapter.rooms.get(room) || [];
@@ -113,6 +118,7 @@ function getUsersInRoom(room) {
     return usersInRoom;
 }
 
+// Start the server
 server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
