@@ -1,9 +1,11 @@
 let socket;
 
+// Event listener to join the chat when 'Enter' is pressed in the nickname input field
 document.getElementById('nickname').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') joinChat();
 });
 
+// Function to join the chat room
 function joinChat() {
     const nickname = document.getElementById('nickname').value;
     const room = document.getElementById('room').value;
@@ -19,12 +21,8 @@ function joinChat() {
     socket.emit('add user', nickname, room);
 }
 
+// Function to set up all socket event listeners
 function socketListeners() {
-
- 
-        
-
-
     socket.on('login', (data) => {
         document.getElementById('login').style.display = 'none';
         document.getElementById('chat').style.display = 'flex';
@@ -61,11 +59,10 @@ function socketListeners() {
         console.log('Private message from ' + msg.from + ': ' + msg.content);
         const chatWindow = document.getElementById('chat-window');
         chatWindow.innerHTML += `<p><strong>Private message from ${msg.from}</strong>: ${msg.content}</p>`;
-    });    
-
-
+    });
 }
 
+// Function to send a message to the chat room
 function sendMessage() {
     const message = document.getElementById('message').value;
     if (message) {
@@ -74,6 +71,7 @@ function sendMessage() {
     }
 }
 
+// Function to exit the chat room
 function exitChat() {
     document.getElementById('chat').style.display = 'none';
     document.getElementById('login').style.display = 'block';
@@ -84,6 +82,7 @@ function exitChat() {
     }
 }
 
+// Function to update the list of active users in the room
 function updateUserList(users) {
     const userList = document.getElementById('user-list');
     userList.innerHTML = '';
@@ -92,6 +91,7 @@ function updateUserList(users) {
     });
 }
 
+// Function to update the list of available rooms
 function updateRoomsList(rooms) {
     const roomSelect = document.getElementById('room');
     roomSelect.innerHTML = '';
@@ -103,12 +103,12 @@ function updateRoomsList(rooms) {
     });
 }
 
+// Function to clear the chat window
 function clearChatWindow() {
     document.getElementById('chat-window').innerHTML = '';
 }
 
-
-
+// Function to send a private message to another user
 function PrivateMessage() {
     const targetUsername = document.getElementById('private-username').value;
     const privateMessage = document.getElementById('private-message').value;
