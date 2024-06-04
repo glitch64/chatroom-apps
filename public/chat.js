@@ -20,6 +20,11 @@ function joinChat() {
 }
 
 function socketListeners() {
+
+ 
+        
+
+
     socket.on('login', (data) => {
         document.getElementById('login').style.display = 'none';
         document.getElementById('chat').style.display = 'flex';
@@ -37,6 +42,7 @@ function socketListeners() {
     });
 
     socket.on('new message', (data) => {
+        console.log('Message sent');
         const chatWindow = document.getElementById('chat-window');
         chatWindow.innerHTML += `<p><strong>${data.nickname}</strong> [${data.timestamp}]: ${data.message}</p>`;
     });
@@ -50,6 +56,14 @@ function socketListeners() {
     socket.on('update users', (users) => {
         updateUserList(users);
     });
+
+    socket.on('private message', (msg) => {
+        console.log('Private message from ' + msg.from + ': ' + msg.content);
+        const chatWindow = document.getElementById('chat-window');
+        chatWindow.innerHTML += `<p><strong>Private message from ${msg.from}</strong>: ${msg.content}</p>`;
+    });    
+
+
 }
 
 function sendMessage() {
@@ -91,4 +105,15 @@ function updateRoomsList(rooms) {
 
 function clearChatWindow() {
     document.getElementById('chat-window').innerHTML = '';
+}
+
+
+
+function PrivateMessage() {
+    const targetUsername = document.getElementById('private-username').value;
+    const privateMessage = document.getElementById('private-message').value;
+    if (targetUsername && privateMessage) {
+        socket.emit('private message', { targetUsername, content: privateMessage });
+        document.getElementById('private-message').value = '';
+    }
 }

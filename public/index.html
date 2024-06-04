@@ -36,10 +36,23 @@
             <div id="button-container">
                 <button onclick="sendMessage()">Send</button>
                 <button onclick="exitChat()">Exit</button>
+            </div><HR>
+   
+            <h3>Private Messages</h3>
+           
+            <input id="private-username" placeholder="Username">
+            <input id="private-message" placeholder="Message">
+            <div id="button-container">
+                <button onclick="PrivateMessage()">Send</button>
+             
             </div>
+    
+
+ 
         </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="chat.js"></script>
+
 </body>
 </html>
