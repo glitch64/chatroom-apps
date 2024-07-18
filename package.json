@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
+    "forever": "^1.0.1",
+    "openai": "^4.52.7",
     "socket.io": "^4.7.5"
   }
 }

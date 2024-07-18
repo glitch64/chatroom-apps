@@ -1,119 +1,61 @@
-let socket;
+const socket = io();
 
-// Event listener to join the chat when 'Enter' is pressed in the nickname input field
-document.getElementById('nickname').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') joinChat();
-});
-
-// Function to join the chat room
 function joinChat() {
     const nickname = document.getElementById('nickname').value;
     const room = document.getElementById('room').value;
-    if (!nickname) {
-        document.getElementById('error').textContent = 'Nickname is required.';
-        return;
-    }
-    if (!socket || !socket.connected) {
-        socket = io();
-        socketListeners();
-    }
-    clearChatWindow();
-    socket.emit('add user', nickname, room);
-}
-
-// Function to set up all socket event listeners
-function socketListeners() {
-    socket.on('login', (data) => {
+    if (nickname) {
+        socket.emit('add user', nickname, room);
         document.getElementById('login').style.display = 'none';
-        document.getElementById('chat').style.display = 'flex';
-        updateRoomsList(data.rooms);
-    });
-
-    socket.on('nickname error', (error) => {
-        document.getElementById('error').textContent = error;
-    });
-
-    socket.on('user joined', (data) => {
-        updateUserList(data.users);
-        const chatWindow = document.getElementById('chat-window');
-        chatWindow.innerHTML += `<p><strong>${data.nickname}</strong> joined the room.</p>`;
-    });
-
-    socket.on('new message', (data) => {
-        console.log('Message sent');
-        const chatWindow = document.getElementById('chat-window');
-        chatWindow.innerHTML += `<p><strong>${data.nickname}</strong> [${data.timestamp}]: ${data.message}</p>`;
-    });
-
-    socket.on('user left', (data) => {
-        updateUserList(data.users);
-        const chatWindow = document.getElementById('chat-window');
-        chatWindow.innerHTML += `<p><strong>${data.nickname}</strong> left the room.</p>`;
-    });
-
-    socket.on('update users', (users) => {
-        updateUserList(users);
-    });
-
-    socket.on('private message', (msg) => {
-        console.log('Private message from ' + msg.from + ': ' + msg.content);
-        const chatWindow = document.getElementById('chat-window');
-        chatWindow.innerHTML += `<p><strong>Private message from ${msg.from}</strong>: ${msg.content}</p>`;
-    });
+        document.getElementById('chat').style.display = 'block';
+        document.getElementById('room-label').innerText = `Room: ${room}`;
+    } else {
+        document.getElementById('error').innerText = 'Nickname is required.';
+    }
 }
 
-// Function to send a message to the chat room
+socket.on('login', (data) => {
+    const roomSelect = document.getElementById('room');
+    roomSelect.innerHTML = '';
+    data.rooms.forEach(room => {
+        const option = document.createElement('option');
+        option.value = room;
+        option.innerText = room;
+        roomSelect.appendChild(option);
+    });
+});
+
+socket.on('new message', (data) => {
+    displayMessage(data.nickname, data.message, data.timestamp);
+});
+
+socket.on('update users', (users) => {
+    const userListContainer = document.getElementById('user-list');
+    userListContainer.innerHTML = '';
+    users.forEach(user => {
+        const userElement = document.createElement('p');
+        userElement.innerText = user;
+        userListContainer.appendChild(userElement);
+    });
+});
+
 function sendMessage() {
     const message = document.getElementById('message').value;
-    if (message) {
+    if (message.trim() !== '') {
         socket.emit('new message', message);
         document.getElementById('message').value = '';
     }
 }
 
-// Function to exit the chat room
+function displayMessage(nickname, message, timestamp = new Date().toLocaleTimeString()) {
+    const chatWindow = document.getElementById('chat-window');
+    const messageElement = document.createElement('p');
+    messageElement.innerText = `${timestamp} ${nickname}: ${message}`;
+    chatWindow.appendChild(messageElement);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
 function exitChat() {
-    document.getElementById('chat').style.display = 'none';
+    socket.disconnect();
     document.getElementById('login').style.display = 'block';
-    clearChatWindow();
-    if (socket) {
-        socket.disconnect();
-        socket = null;
-    }
-}
-
-// Function to update the list of active users in the room
-function updateUserList(users) {
-    const userList = document.getElementById('user-list');
-    userList.innerHTML = '';
-    users.forEach(user => {
-        userList.innerHTML += `<p>${user}</p>`;
-    });
-}
-
-// Function to update the list of available rooms
-function updateRoomsList(rooms) {
-    const roomSelect = document.getElementById('room');
-    roomSelect.innerHTML = '';
-    rooms.forEach(room => {
-        const option = document.createElement('option');
-        option.value = room;
-        option.textContent = room;
-        roomSelect.appendChild(option);
-    });
-}
-
-// Function to clear the chat window
-function clearChatWindow() {
-    document.getElementById('chat-window').innerHTML = '';
-}
-
-// Function to send a private message to another user
-function PrivateMessage() {
-    const targetUsername = document.getElementById('private-username').value;
-    const privateMessage = document.getElementById('private-message').value;
-    if (targetUsername && privateMessage) {
-        socket.emit('private message', { targetUsername, content: privateMessage });
-        document.getElementById('private-message').value = '';
-    }
+    document.getElementById('chat').style.display = 'none';
 }
