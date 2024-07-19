@@ -59,6 +59,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('new message', async (message) => {
+    	// Broadcast user message to all clients in the room
+    	io.to(socket.room).emit('new message', {
+    	    nickname: socket.nickname,
+    	    message: message,
+    	    timestamp: new Date().toLocaleTimeString(),
+    	});
         if (socket.room === 'ChatGPT') {
             try {
                 const response = await axios.post(
@@ -93,13 +99,6 @@ io.on('connection', (socket) => {
             } catch (error) {
                 console.error('Error with OpenAI API:', error);
             }
-        } else {
-            // Broadcast user message to all clients in the room
-            io.to(socket.room).emit('new message', {
-                nickname: socket.nickname,
-                message: message,
-                timestamp: new Date().toLocaleTimeString(),
-            });
         }
     });
 

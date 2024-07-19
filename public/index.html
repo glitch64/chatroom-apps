@@ -8,9 +8,13 @@
 </head>
 <body>
     <div id="page-wrapper">
-        <table width="100%"><tr><td valign="top"><img src="g64smallgrey.png"></td><td valign="top">&nbsp;</td></tr></table>
         <div id="login">
-            <h1>Chat Room</h1>
+		<table width="100%"><tr><td width="120px"><a title="Back to mackey.solutions" href="javascript:history.back(1);"><img src="glitchlogo.jpg" width="100"></a></td><td> <h2>My simple Chat Rooms App:</h2>
+</td></tr></table>
+
+	    <font style="font-family:verdana;font-size:11pt;color:navy">Welcome!  There are currently 11 chatrooms available.<br>
+		Please enter your nickname, select a chatroom to enter (Lobby, Rooms 1 - 9, Chagpt), and click JOIN CHAT.<br>
+		Note:  Please be an adult.  abusive visitors will be blocked, thanks!<br><BR> </font>
             <input id="nickname" type="text" placeholder="Enter your nickname">
             <select id="room">
                 <option value="Lobby">Lobby</option>
@@ -26,13 +30,10 @@
                 <option value="ChatGPT">ChatGPT</option>
             </select>
             <button onclick="joinChat()">Join Chat</button>
+	    &nbsp;
+	    <button onclick="history.back(1);">Return to mackey.solutions</button>
             <p id="error"></p>
             <div style="font-size:8pt">
-                <textarea readonly style="width:900px;height:200px;cellpadding:0px;cellspacing:0px;background-color:black;color:white" wrap>
-Enter a nickname to use, select a room to join, and click the JOIN CHAT button.  (Defaults to the "Lobby").
-Note:  I developed the Chat Room Application to brush up on Javascript and Node JS.  
-Built using: express, http, socket.io.  
-                </textarea>
             </div>
         </div>
         <div id="chat" style="display: none;">
@@ -47,6 +48,7 @@ Built using: express, http, socket.io.
                 <div id="button-container">
                     <button onclick="sendMessage()">Send</button>
                     <button onclick="exitChat()">Exit</button>
+		    <button onclick="document.location='https://mackey.solutions';" >Return to mackey.solutions</button>
                 </div><HR>
                 <h5>Private Messages</h5>
                 <input id="private-username" placeholder="Username">
