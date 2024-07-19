@@ -1,14 +1,31 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import { Configuration, OpenAIApi } from 'openai';
+import axios from 'axios';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
+import { execSync } from 'child_process';
 
 // Create __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Path to the shell script
+const shellScriptPath = join(__dirname, 'cgkey.sh');
+
+// Execute the shell script and capture the output
+const output = execSync(`bash ${shellScriptPath}`).toString();
+
+// Extract the API key from the output
+const match = output.match(/export OPENAI_API_KEY='([^']+)'/);
+if (match && match[1]) {
+    process.env.OPENAI_API_KEY = match[1];
+    console.log('OPENAI_API_KEY set successfully.');
+} else {
+    console.error('Error: OPENAI_API_KEY not set.');
+    process.exit(1);
+}
 
 // Verify that index.html exists at the expected location
 const indexPath = join(__dirname, 'public', 'index.html');
@@ -28,11 +45,11 @@ app.get('/', (req, res) => {
     res.sendFile(indexPath);
 });
 
-// Initialize OpenAI API
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+// OpenAI API URL
+const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+
+// Environment variables
+const API_KEY = process.env.OPENAI_API_KEY;
 
 io.on('connection', (socket) => {
     console.log('a user connected');
@@ -44,18 +61,27 @@ io.on('connection', (socket) => {
     socket.on('new message', async (message) => {
         if (socket.room === 'ChatGPT') {
             try {
-                const response = await openai.createChatCompletion({
-                    model: 'gpt-3.5-turbo',
-                    messages: [
-                        { role: 'system', content: 'You are a programming expert and the world\'s greatest mentor and teacher. You are slightly sarcastic occasionally to be funny, but you\'re not mean.' },
-                        { role: 'user', content: message }
-                    ],
-                    temperature: 0.7, // Example value
-                    max_tokens: 150,  // Example value
-                    top_p: 1,         // Example value
-                    frequency_penalty: 0.5, // Example value
-                    presence_penalty: 0.0,  // Example value
-                });
+                const response = await axios.post(
+                    OPENAI_API_URL,
+                    {
+                        model: 'gpt-3.5-turbo',
+                        messages: [
+                            { role: 'system', content: 'You are a programming expert and the world\'s greatest mentor and teacher. You are slightly sarcastic occasionally to be funny, but you\'re not mean.' },
+                            { role: 'user', content: message }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 750,
+                        top_p: 1,
+                        frequency_penalty: 0.5,
+                        presence_penalty: 0.0,
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${API_KEY}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
                 const reply = response.data.choices[0].message.content;
 
                 // Broadcast the ChatGPT response to all clients in the room

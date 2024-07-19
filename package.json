@@ -1,7 +1,7 @@
 {
   "name": "chatroom-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web Chatroom application.  NodeJS application using express, http, socket.io, path node modules.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,9 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.2",
     "express": "^4.19.2",
-    "forever": "^1.0.1",
-    "openai": "^4.52.7",
+    "forever": "^4.0.3",
+    "http": "^0.0.1-security",
     "socket.io": "^4.7.5"
   }
 }

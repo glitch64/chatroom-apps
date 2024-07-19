@@ -13,6 +13,7 @@ Visitors select from a drop down list of chat rooms.  There are 10 rooms:
 
 LOBBY
 ROOMS 1-9
+ChatGPT - I'm using the openai-api to chatgpt3.5 turbo.  Enter the ChatGPT room to talk to it.
 
 ![image](https://github.com/glitch64/chatroom-apps/assets/6064068/e1e5b7e0-eab4-4da8-a68c-f6c183d43f3d)
 
