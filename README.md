@@ -1,15 +1,15 @@
 Web Chatroom application. 
 NodeJS application using express, http, socket.io, path node modules.
-
-Currently running in a code space: https://fictional-yodel-gprw759vx5hww9g-3000.app.github.dev/
-
+Using: 
+express, http, socket.io, axios, url, path, fs
+ 
 Description:
 
-This is basically a training application for me.  A basic chat room application.
+A Chatrooms application.
 
 Chat Application prompts visitor for a nickname and a room to join.  
 Application will check existing active connections of users and not allow you to pick a nickname currently active.
-Visitors select from a drop down list of chat rooms.  There are 10 rooms:
+Visitors select from a drop down list of chat rooms.  There are 11 rooms:
 
 LOBBY
 ROOMS 1-9
@@ -29,11 +29,11 @@ Updated:  A basic private chat message feature has been added.
 Next update:  Will update private chat to either require a selection from a drop-down list, or some other method. 
 
 Installation:
-
-1. git clone https://github.com/glitch64/chatroom-apps.git
-2. cd to chatroom-apps folder
-3. npm update
-4. npm install
+1. mkdir chatroom-apps
+2. git clone https://github.com/glitch64/chatroom-apps.git
+3. cd to chatroom-apps folder
+4. npm update
+5. npm install
 
 
 
