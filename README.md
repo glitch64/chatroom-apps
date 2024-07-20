@@ -31,10 +31,10 @@ Installation:
 2. git clone https://github.com/glitch64/chatroom-apps.git
 3. cd to chatroom-apps folder
 4. create cgkey.sh and chatroom.sh files:
-	Enter following to cgkey.sh:
-	echo "export OPENAI_API_KEY='### your openai API Key ####'"
-	Enter following to chatroom.sh: 
-	export OPENAI_API_KEY="### your openai API Key ####"
+   4.1	Enter following to cgkey.sh:
+   4.2	echo "export OPENAI_API_KEY='### your openai API Key ####'"
+   4.3	Enter following to chatroom.sh: 
+   4.4	export OPENAI_API_KEY="### your openai API Key ####"
 5. npm update
 6. npm install
 
