@@ -1,13 +1,13 @@
 {
-  "name": "chatroom-app",
+  "name": "chatroom-apps",
   "version": "1.0.0",
-  "description": "Web Chatroom application.  NodeJS application using express, http, socket.io, path node modules.",
-  "main": "index.js",
+  "description": "Web Chatroom application.  NodeJS application.",
+  "main": "server.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "G. A. Mackey",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.2",
@@ -15,5 +15,14 @@
     "forever": "^4.0.3",
     "http": "^0.0.1-security",
     "socket.io": "^4.7.5"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glitch64/chatroom-apps.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glitch64/chatroom-apps/issues"
+  },
+  "homepage": "https://github.com/glitch64/chatroom-apps#readme"
 }
