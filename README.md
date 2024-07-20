@@ -1,7 +1,5 @@
 Web Chatroom application. 
-NodeJS application using express, http, socket.io, path node modules.
-Using: 
-express, http, socket.io, axios, url, path, fs
+NodeJS application using: express, http, socket.io, axios, url, path, fs
  
 Description:
 
@@ -13,7 +11,7 @@ Visitors select from a drop down list of chat rooms.  There are 11 rooms:
 
 LOBBY
 ROOMS 1-9
-ChatGPT - I'm using the openai-api to chatgpt3.5 turbo.  Enter the ChatGPT room to talk to it.
+ChatGPT - openai-api to tuned chatgpt3.5 turbo LLM.  Enter the ChatGPT room to send prompts to it.
 
 ![image](https://github.com/glitch64/chatroom-apps/assets/6064068/e1e5b7e0-eab4-4da8-a68c-f6c183d43f3d)
 
