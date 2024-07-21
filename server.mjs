@@ -7,11 +7,18 @@ import { dirname, join } from 'path';
 import fs from 'fs';
 import dotenv from 'dotenv';
 
+
 // Load environment variables from .env file
 dotenv.config();
   // Create __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Path to the system instructions file
+const systemInstructionsPath = join(__dirname, 'system_instructions.txt');
+
+// Read the system instructions from the file
+const SYSTEM_PROMPT = fs.readFileSync(systemInstructionsPath, 'utf-8');
 
 // Verify that index.html exists at the expected location
 const indexPath = join(__dirname, 'public', 'index.html');
@@ -58,7 +65,7 @@ io.on('connection', (socket) => {
                     {
                         model: 'gpt-3.5-turbo',
                         messages: [
-                            { role: 'system', content: 'You are a programming expert and the world\'s greatest mentor and teacher. You are slightly sarcastic occasionally to be funny, but you\'re not mean.' },
+                            { role: 'system', content: SYSTEM_PROMPT },
                             { role: 'user', content: message }
                         ],
                         temperature: 0.7,
