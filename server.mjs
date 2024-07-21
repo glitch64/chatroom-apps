@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
                             { role: 'user', content: `${socket.nickname}: ${message}` }
                         ],
                         temperature: 1.0,
-                        max_tokens: 1000,
+                        max_tokens: 2000,
                         top_p: 1,
                         frequency_penalty: 0.0,
                         presence_penalty: 0.0,
