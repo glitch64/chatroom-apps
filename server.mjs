@@ -5,27 +5,13 @@ import axios from 'axios';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs';
-import { execSync } from 'child_process';
+import dotenv from 'dotenv';
 
-// Create __dirname equivalent for ES modules
+// Load environment variables from .env file
+dotenv.config();
+  // Create __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-// Path to the shell script
-const shellScriptPath = join(__dirname, 'cgkey.sh');
-
-// Execute the shell script and capture the output
-const output = execSync(`bash ${shellScriptPath}`).toString();
-
-// Extract the API key from the output
-const match = output.match(/export OPENAI_API_KEY='([^']+)'/);
-if (match && match[1]) {
-    process.env.OPENAI_API_KEY = match[1];
-    console.log('OPENAI_API_KEY set successfully.');
-} else {
-    console.error('Error: OPENAI_API_KEY not set.');
-    process.exit(1);
-}
 
 // Verify that index.html exists at the expected location
 const indexPath = join(__dirname, 'public', 'index.html');
@@ -59,12 +45,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('new message', async (message) => {
-    	// Broadcast user message to all clients in the room
-    	io.to(socket.room).emit('new message', {
-    	    nickname: socket.nickname,
-    	    message: message,
-    	    timestamp: new Date().toLocaleTimeString(),
-    	});
+        // Broadcast user message to all clients in the room
+        io.to(socket.room).emit('new message', {
+            nickname: socket.nickname,
+            message: message,
+            timestamp: new Date().toLocaleTimeString(),
+        });
         if (socket.room === 'ChatGPT') {
             try {
                 const response = await axios.post(
