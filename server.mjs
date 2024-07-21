@@ -15,10 +15,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Path to the system instructions file
-const systemInstructionsPath = join(__dirname, 'system_instructions.txt');
+const systemInstructionsPath_system_science_and_programmer_expert = join(__dirname, 'system_instruction_science_and_programmer_expert.txt');
+const systemInstructionsPath_ancient_history_expert = join(__dirname, 'system_instruction_ancient_history_expert.txt');
 
 // Read the system instructions from the file
-const SYSTEM_PROMPT = fs.readFileSync(systemInstructionsPath, 'utf-8');
+const SYSTEM_PROMPT_SCIENCE_AND_PROGRAMMER_EXPERT = fs.readFileSync(systemInstructionsPath_system_science_and_programmer_expert, 'utf-8');
+const SYSTEM_PROMPT_ANCIENT_HISTORY_EXPERT = fs.readFileSync(systemInstructionsPath_ancient_history_expert, 'utf-8');
 
 // Verify that index.html exists at the expected location
 const indexPath = join(__dirname, 'public', 'index.html');
@@ -58,20 +60,20 @@ io.on('connection', (socket) => {
             message: message,
             timestamp: new Date().toLocaleTimeString(),
         });
-        if (socket.room === 'ChatGPT') {
+        if (socket.room === 'Science and Programmer Expert') {
             try {
                 const response = await axios.post(
                     OPENAI_API_URL,
                     {
                         model: 'gpt-3.5-turbo',
                         messages: [
-                            { role: 'system', content: SYSTEM_PROMPT },
+                            { role: 'system', content: SYSTEM_PROMPT_SCIENCE_AND_PROGRAMMER_EXPERT},
                             { role: 'user', content: message }
                         ],
-                        temperature: 0.7,
-                        max_tokens: 750,
+                        temperature: 1.0,
+                        max_tokens: 1000,
                         top_p: 1,
-                        frequency_penalty: 0.5,
+                        frequency_penalty: 0.0,
                         presence_penalty: 0.0,
                     },
                     {
@@ -93,6 +95,48 @@ io.on('connection', (socket) => {
                 console.error('Error with OpenAI API:', error);
             }
         }
+
+        if (socket.room === 'Ancient History Expert') {
+            try {
+                const response = await axios.post(
+                    OPENAI_API_URL,
+                    {
+                        model: 'gpt-3.5-turbo',
+                        messages: [
+                            { role: 'system', content: SYSTEM_PROMPT_ANCIENT_HISTORY_EXPERT},
+                            { role: 'user', content: message }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 2000,
+                        top_p: 1,
+                        frequency_penalty: 0.0,
+                        presence_penalty: 0.0,
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${API_KEY}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+                const reply = response.data.choices[0].message.content;
+
+                // Broadcast the ChatGPT response to all clients in the room
+                io.to(socket.room).emit('new message', {
+                    nickname: 'ChatGPT',
+                    message: reply,
+                    timestamp: new Date().toLocaleTimeString(),
+                });
+            } catch (error) {
+                console.error('Error with OpenAI API:', error);
+            }
+        }
+
+
+
+
+
+
     });
 
     socket.on('add user', (nickname, room) => {
