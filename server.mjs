@@ -32,6 +32,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+const users = {};// object to store users by room
+
 // Serve static files from the public directory
 app.use(express.static(join(__dirname, 'public')));
 
@@ -50,7 +52,16 @@ io.on('connection', (socket) => {
     console.log('a user connected');
 
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        if (socket.room && socket.nickname) {
+            const roomUsers = users[socket.room] || [];
+            const index = roomUsers.indexOf(socket.nickname);
+            if (index !== -1) {
+                roomUsers.splice(index, 1);
+                users[socket.room] = roomUsers;
+                io.to(socket.room).emit('update users', roomUsers);
+            }
+        }
+	console.log('user disconnected');
     });
 
     socket.on('new message', async (message) => {
@@ -68,7 +79,7 @@ io.on('connection', (socket) => {
                         model: 'gpt-3.5-turbo',
                         messages: [
                             { role: 'system', content: SYSTEM_PROMPT_SCIENCE_AND_PROGRAMMER_EXPERT},
-                            { role: 'user', content: message }
+                            { role: 'user', content: `${socket.nickname}: ${message}` }
                         ],
                         temperature: 1.0,
                         max_tokens: 1000,
@@ -87,7 +98,7 @@ io.on('connection', (socket) => {
 
                 // Broadcast the ChatGPT response to all clients in the room
                 io.to(socket.room).emit('new message', {
-                    nickname: 'ChatGPT',
+                    nickname: 'Science and Programming Expert',
                     message: reply,
                     timestamp: new Date().toLocaleTimeString(),
                 });
@@ -104,7 +115,7 @@ io.on('connection', (socket) => {
                         model: 'gpt-3.5-turbo',
                         messages: [
                             { role: 'system', content: SYSTEM_PROMPT_ANCIENT_HISTORY_EXPERT},
-                            { role: 'user', content: message }
+                            { role: 'user', content: `${socket.nickname}: ${message}`  }
                         ],
                         temperature: 0.7,
                         max_tokens: 2000,
@@ -123,7 +134,7 @@ io.on('connection', (socket) => {
 
                 // Broadcast the ChatGPT response to all clients in the room
                 io.to(socket.room).emit('new message', {
-                    nickname: 'ChatGPT',
+                    nickname: 'Ancient History Expert',
                     message: reply,
                     timestamp: new Date().toLocaleTimeString(),
                 });
@@ -144,12 +155,21 @@ io.on('connection', (socket) => {
         socket.join(room);
         socket.room = room;
         socket.nickname = nickname;
-        console.log(`${nickname} joined room ${room}`);
+
+        // Add user to the room's user list
+        if (!users[room]) {
+            users[room] = [];
+        }
+        users[room].push(nickname);
+	    
+	console.log(`${nickname} joined room ${room}`);
         io.to(socket.room).emit('new message', {
             nickname: 'System',
             message: `${nickname} has joined the room.`,
             timestamp: new Date().toLocaleTimeString(),
         });
+        // Emit updated user list
+        io.to(socket.room).emit('update users', users[room]);	    
     });
 });
 

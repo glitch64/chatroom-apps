@@ -55,7 +55,8 @@ function displayMessage(nickname, message, timestamp = new Date().toLocaleTimeSt
 }
 
 function exitChat() {
-    socket.disconnect();
-    document.getElementById('login').style.display = 'block';
-    document.getElementById('chat').style.display = 'none';
+//    socket.disconnect();
+//    document.getElementById('login').style.display = 'block';
+//    document.getElementById('chat').style.display = 'none';
+      document.location = 'http://mackey.solutions:3000';
 }
