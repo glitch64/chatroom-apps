@@ -11,7 +11,7 @@ Visitors select from a drop down list of chat rooms.  There are 11 rooms:
 
 LOBBY
 ROOMS 1-9
-ChatGPT - openai-api to tuned chatgpt3.5 turbo LLM.  Enter the ChatGPT room to send prompts to it.
+2 Rooms that are ChatGPT - openai-api to tuned chatgpt3.5 turbo LLM:  Science and Programming Expert, and Ancient History Expert
 
 ![image](https://github.com/glitch64/chatroom-apps/assets/6064068/e1e5b7e0-eab4-4da8-a68c-f6c183d43f3d)
 
