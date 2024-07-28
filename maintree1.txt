@@ -1,0 +1,25 @@
+.
+├── README.md
+├── maintree1.txt
+├── package-lock.json
+├── package.json
+├── public
+│   ├── bg01.jpg
+│   ├── bg02.jpg
+│   ├── bg03.jpg
+│   ├── bg04.jpg
+│   ├── bg04.png
+│   ├── chat.js
+│   ├── chatroom2.jpg
+│   ├── chatroom2sm.jpg
+│   ├── g64smallgrey.png
+│   ├── glitchlogo.jpg
+│   ├── group-chat-icon.png
+│   ├── index.html
+│   └── styles.css
+├── rc.sh
+├── server.mjs
+├── system_instruction_ancient_history_expert.txt
+└── system_instruction_science_and_programmer_expert.txt
+
+1 directory, 21 files

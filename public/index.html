@@ -9,14 +9,20 @@
 <body>
     <div id="page-wrapper">
         <div id="login">
-		<table width="100%"><tr><td width="120px"><a title="Back to mackey.solutions" href="javascript:history.back(1);"><img src="glitchlogo.jpg" width="100"></a></td><td> <h2>My simple Chat Rooms App:</h2>
+		<table width="100%"><tr><td width="120px"><a title="Back to mackey.solutions" href="https://mackey.solutions">
+		<img src="group-chat-icon.png" height="75px"></a></td>
+		<td> <h2>Chat Rooms App:</h2>
+		<td> &nbsp;</td>
 </td></tr></table>
 
-	    <font style="font-family:verdana;font-size:9pt;color:navy">Welcome!  There are currently 12 chatrooms available.<br>
-		Please enter your nickname, select a chatroom to enter (Rooms: Lobby, Rooms 1 - 9, Science and Programming Expert, Ancient History Expert), and click JOIN CHAT.<br>
-		Note:  Please be an adult.  abusive visitors will be blocked, thanks!<br><BR> </font>
+	    <h4>Welcome!</h4><font style="font-family:verdana;font-size:9pt;color:navy">
+		There are currently 12 chatrooms available (including the Lobby). <BR> Sometimes specific rooms will have a fine-tuned Chat GPT model (openai-api) visiting and responding to chats.  
+		Check the Room drop-down list.<br>
+		Please enter your nickname, select a chatroom to enter.<BR><br>
+		<b>Rooms:</b> Lobby, Rooms 1 - 9, Science and Programming Expert*, Ancient History Expert*, and click JOIN CHAT.<br>
+		<b>Note:</b>  Please be an adult.  abusive visitors will be blocked, thanks!<br><BR> </font>
             <input id="nickname" type="text" placeholder="Enter your nickname">
-            <select id="room">
+            <select id="room"  size="15" style="overflow-y:auto;">
                 <option value="Lobby">Lobby</option>
                 <option value="Room #1">Room #1</option>
                 <option value="Room #2">Room #2</option>
@@ -33,18 +39,41 @@
             </select>
             <button onclick="joinChat()">Join Chat</button>
 	    &nbsp;
-	    <button onclick="history.back(1);">Return to mackey.solutions</button>
+	    <button onclick="document.location='https://mackey.solutions';">Return to mackey.solutions</button>
             <p id="error"></p>
             <div style="font-size:8pt">
             </div>
         </div>
         <div id="chat" style="display: none;">
-            <div id="user-list-container">
-                <h3>Active Users:</h3>
+		<table width="100%"><tr>
+		<td width="120px">
+			<a title="Back to mackey.solutions" href="javascript:history.back(1);">
+			<img src="group-chat-icon.png" height="75px">
+			</a>
+		</td>
+		<td valign="top" style="color:navy;width:40%"> <h2 id="room-label">Room Messages</h2> <!-- Added for room label --> </h2></td>
+		<td valign="middle" style="width:23%;"align="right">&nbsp;</td>
+		<td valign="top" align="right">
+		<table>
+			<tr>
+			<td align="left">
+			<b>Active Users:</b> 
+			</td>
+			</tr>
+			<tr>
+			<td align="right">
+		    <div id="user-list-container">
+                
                 <div id="user-list"></div>
             </div>
+			</td>
+			</tr>
+		</table>
+		</td>
+		</tr></table>
+
             <div id="chat-container"  height=200> 
-                <h2 id="room-label">Room Messages</h2> <!-- Added for room label -->
+                
                 <div id="chat-window" style="height:150px"></div>
 		<textarea id="message"  placeholder="Type a message..." style="width:100%;height:80px" wrap></textarea>
 		<HR>
@@ -53,12 +82,14 @@
                     <button onclick="exitChat()">Exit</button>
 		    <button onclick="document.location='https://mackey.solutions';" >Return to mackey.solutions</button>
                 </div><HR>
+				<!--
                 <h5>Private Messages</h5>
                 <input id="private-username" placeholder="Username">
                 <input id="private-message" placeholder="Message">
                 <div id="button-container">
                     <button onclick="PrivateMessage()">Send</button>
                 </div>
+				-->
             </div>
         </div>
     </div>
